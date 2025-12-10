@@ -2,27 +2,37 @@ import sys
 import os
 from streamlit.web import cli as stcli
 
-def resolve_path(path):
-    """Resolve caminhos para funcionar tanto em script quanto em EXE"""
+def main():
+    # --- 1. CONFIGURAÇÕES DE AMBIENTE (TELEMETRIA) ---
+    # Colocamos isso no topo para garantir que o Chroma veja essa config antes de iniciar
+    os.environ["ANONYMIZED_TELEMETRY"] = "False"
+    
+    # Configurações para o Streamlit não abrir janelas de aviso ou pedir e-mail
+    os.environ["STREAMLIT_SERVER_HEADLESS"] = "true"
+    os.environ["STREAMLIT_GLOBAL_DEVELOPMENT_MODE"] = "false"
+
+    # --- 2. RESOLUÇÃO DE CAMINHOS (PYINSTALLER) ---
     if getattr(sys, 'frozen', False):
-        # Se estiver rodando como .exe (congelado)
+        # Se estiver rodando como EXE (congelado)
         base_path = sys._MEIPASS
     else:
         # Se estiver rodando como script normal
-        base_path = os.getcwd()
-    return os.path.join(base_path, path)
+        base_path = os.path.dirname(os.path.abspath(__file__))
 
-if __name__ == "__main__":
-    # Configura o ambiente para produção
-    os.environ["STREAMLIT_GLOBAL_DEVELOPMENT_MODE"] = "false"
-    
-    # Define o caminho do app principal
-    # Nota: Quando empacotado, o 'app.py' deve estar junto
+    # Monta o caminho ABSOLUTO para o app.py
+    app_path = os.path.join(base_path, 'app.py')
+
+    # --- 3. INICIALIZAÇÃO DO STREAMLIT ---
+    # Monta o comando de execução simulando a linha de comando
     sys.argv = [
         "streamlit",
         "run",
-        resolve_path("app.py"),
+        app_path,
         "--global.developmentMode=false",
     ]
-    
+
+    # Inicia o servidor
     sys.exit(stcli.main())
+
+if __name__ == "__main__":
+    main()
