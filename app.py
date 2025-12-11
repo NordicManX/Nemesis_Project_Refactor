@@ -13,7 +13,7 @@ from ingest import processar_arquivos
 from prompt import fluxo_de_resposta
 
 # --- CONFIGURAÇÃO ---
-st.set_page_config(page_title="NEMESIS AI PRO", page_icon="⚖️", layout="wide")
+st.set_page_config(page_title="NEMESIS AI PROJECT", page_icon="🧬", layout="wide")
 
 # Inicialização de Estado
 if "vectorstore" not in st.session_state: st.session_state.vectorstore = None
@@ -74,7 +74,7 @@ def acao_renomear(antigo, novo):
         if antigo in cfg["pinned"]:
             cfg["pinned"].remove(antigo)
             cfg["pinned"].append(novo_limpo)
-        salvar_config_json(cfg)
+        salvar_config(cfg)
         st.session_state.caso_selecionado = novo_limpo
         st.toast("✅ Renomeado!")
         st.rerun()
@@ -115,8 +115,22 @@ def main():
 
         if not get_tesseract_cmd(): st.error("🚨 Tesseract não encontrado")
 
+        # --- RODAPÉ PERSONALIZADO (AQUI ESTÁ A MUDANÇA) ---
+        st.markdown("---")
+        st.markdown(
+            """
+            <div style='text-align: center; color: #666; font-size: 0.8em; margin-top: 20px;'>
+                <p>Feito por <b>NordicManX</b> ❄️⚔️</p>
+                <p>🛡️ <b>Nemesis Team</b></p>
+                <p>🌊 Guaratuba - Paraná</p>
+                <p style='font-size: 0.7em; opacity: 0.5;'>v18.1 Stable Build</p>
+            </div>
+            """, 
+            unsafe_allow_html=True
+        )
+
     if st.session_state.get("caso_selecionado"):
-        st.title(f"⚖️ {st.session_state.caso_selecionado}")
+        st.title(f"🧬 {st.session_state.caso_selecionado}")
         if not st.session_state.vectorstore:
             st.session_state.vectorstore = carregar_banco(st.session_state.caso_selecionado)
             
