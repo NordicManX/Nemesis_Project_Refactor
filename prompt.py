@@ -19,7 +19,8 @@ def fluxo_de_resposta(vectorstore, pergunta):
         yield "Sem dados. Anexe um arquivo."
         return
 
-    # Prompt Supremo (Sem Filtros)
+    # Prompt Melhorado (Sem Filtros)
+
     contexto_final = f"""
     VOCÊ É UM ANALISTA DE DADOS (JURÍDICO/FINANCEIRO/TÉCNICO).
     DADOS BRUTOS (OCR/PLANILHAS/ÁUDIO):
@@ -32,7 +33,9 @@ def fluxo_de_resposta(vectorstore, pergunta):
     """
     
     chain = ChatPromptTemplate.from_template("Analise e responda:\n{question}") | get_llm()
+
     # Concatena para garantir contexto
+    
     full_q = f"{contexto_final}\n\nPERGUNTA: {pergunta}"
     
     for chunk in chain.stream({"question": full_q}):

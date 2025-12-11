@@ -54,6 +54,7 @@ def processar_arquivos(vectorstore, arquivos):
         chunks = splitter.split_documents(docs_acumulados)
         
         # Batch fix para ChromaDB
+        
         BATCH_SIZE = 4000
         for i in range(0, len(chunks), BATCH_SIZE):
             vectorstore.add_documents(chunks[i:i+BATCH_SIZE])

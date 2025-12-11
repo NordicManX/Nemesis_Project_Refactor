@@ -6,6 +6,7 @@ import numpy as np
 from config import get_tesseract_cmd
 
 # Configura Tesseract na inicialização do módulo
+
 cmd = get_tesseract_cmd()
 if cmd:
     pytesseract.pytesseract.tesseract_cmd = cmd
@@ -26,7 +27,9 @@ def ler_pdf(caminho):
         doc = fitz.open(caminho)
         for i, pagina in enumerate(doc):
             t = pagina.get_text()
+
             # Lógica Híbrida: Se pouco texto, faz OCR na página
+            
             if len(t.strip()) < 5 and cmd: 
                 pix = pagina.get_pixmap()
                 img = Image.frombytes("RGB", [pix.width, pix.height], pix.samples)

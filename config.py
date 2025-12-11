@@ -1,7 +1,8 @@
 import os
 import sys
 
-# --- 1. DEFINIÇÃO DA PASTA RAIZ ---
+# DEFINIÇÃO DA PASTA RAIZ 
+
 if getattr(sys, 'frozen', False):
     BASE_DIR = os.path.dirname(sys.executable)
 else:
@@ -13,14 +14,15 @@ ARQUIVO_CONFIG = os.path.join(PASTA_MEMORIA, "nemesis_config.json")
 MODELO_LLM = "llama3.1"
 TEMPERATURA = 0.0
 
-# --- 2. CONFIGURAÇÃO DO FFMPEG (NOVO!) ---
-# Adiciona a pasta bin_ffmpeg ao PATH do sistema temporariamente
-# Assim o Whisper encontra o executável sem precisar instalar no Windows
+# CONFIGURAÇÃO DO FFMPEG
+# Adiciona a pasta bin_ffmpeg ao PATH do sistema temporariamente sendo assim, o Whisper encontra o executável sem precisar de instalação global.
+
 caminho_ffmpeg = os.path.join(BASE_DIR, "bin_ffmpeg")
 if os.path.exists(caminho_ffmpeg):
     os.environ["PATH"] += os.pathsep + caminho_ffmpeg
 
-# --- 3. CONFIGURAÇÃO DO TESSERACT ---
+# CONFIGURAÇÃO DO TESSERACT 
+
 def get_tesseract_cmd():
     # Prioridade: Pasta Local
     caminho_local = os.path.join(BASE_DIR, "bin_tesseract", "tesseract.exe")

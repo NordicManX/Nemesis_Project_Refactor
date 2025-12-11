@@ -6,16 +6,19 @@ import shutil
 import os
 
 # Importando os módulos
+
 from config import get_tesseract_cmd, PASTA_MEMORIA
 from utils import carregar_config_json, salvar_config_json, faxina_inicial, gerar_word, listar_casos_visiveis
 from store import carregar_banco
 from ingest import processar_arquivos
 from prompt import fluxo_de_resposta
 
-# --- CONFIGURAÇÃO ---
+# CONFIGURAÇÃO 
+
 st.set_page_config(page_title="NEMESIS AI PROJECT", page_icon="🧬", layout="wide")
 
 # Inicialização de Estado
+
 if "vectorstore" not in st.session_state: st.session_state.vectorstore = None
 if "caso_selecionado" not in st.session_state: st.session_state.caso_selecionado = None
 if "memoria_imediata" not in st.session_state: st.session_state.memoria_imediata = ""
@@ -23,9 +26,10 @@ if "messages" not in st.session_state: st.session_state.messages = []
 if "ultimas_fontes" not in st.session_state: st.session_state.ultimas_fontes = []
 
 # Faxina na inicialização
+
 faxina_inicial()
 
-# --- CSS ---
+# CSS 
 st.markdown("""
 <style>
     .stApp { background-color: #1e1e1e; color: #e0e0e0; }
@@ -38,7 +42,7 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# --- AÇÕES DE BARRA LATERAL ---
+# AÇÕES DE BARRA LATERAL
 def acao_excluir(nome):
     st.session_state.vectorstore = None
     st.session_state.caso_selecionado = None
@@ -80,7 +84,7 @@ def acao_renomear(antigo, novo):
         st.rerun()
     except: st.error("⚠️ Erro ao renomear.")
 
-# --- APP ---
+#  APP
 def main():
     with st.sidebar:
         st.header("🗂️ Histórico")
@@ -115,7 +119,7 @@ def main():
 
         if not get_tesseract_cmd(): st.error("🚨 Tesseract não encontrado")
 
-        # --- RODAPÉ PERSONALIZADO (AQUI ESTÁ A MUDANÇA) ---
+        #  RODAPÉ PERSONALIZADO 
         st.markdown("---")
         st.markdown(
             """
@@ -167,7 +171,7 @@ def main():
                 st.session_state.messages.append({"role": "assistant", "content": resp, "fontes": ft})
                 st.rerun()
     else:
-        st.markdown("# 👋 Bem-vindo ao Nemesis")
+        st.markdown("# 👋 Bem-vindo ao Nemesis Project")
         novo = st.text_input("Novo Caso")
         if novo:
             safe = re.sub(r'[^a-zA-Z0-9_-]', '', novo.strip().replace(" ", "_")).strip("_-")

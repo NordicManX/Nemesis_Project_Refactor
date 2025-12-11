@@ -3,7 +3,9 @@ import whisper
 
 @st.cache_resource
 def get_whisper_model():
-    # Modelo base é o melhor equilibrio CPU/Precisão
+    
+    # Modelo base CPU
+
     return whisper.load_model("base")
 
 def transcrever_audio(caminho_audio):

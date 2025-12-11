@@ -4,11 +4,13 @@ import sys
 import os
 import streamlit
 
-# --- 1. CONFIGURAÇÃO DE CAMINHOS ---
+# 1. CONFIGURAÇÃO DE CAMINHOS 
+
 streamlit_path = os.path.dirname(streamlit.__file__)
 streamlit_static = os.path.join(streamlit_path, 'static')
 
-# --- 2. ARQUIVOS DO PROJETO ---
+# 2. ARQUIVOS DO PROJETO
+
 datas = [
     ('app.py', '.'),
     ('config.py', '.'),
@@ -21,7 +23,8 @@ datas = [
     (streamlit_static, 'streamlit/static'),
 ]
 
-# --- 3. METADADOS ---
+# 3. METADADOS
+
 packages_metadata = [
     'streamlit',
     'chromadb',
@@ -50,7 +53,8 @@ for package in packages_metadata:
     except Exception:
         pass
 
-# --- 4. IMPORTAÇÕES OCULTAS (LISTA ATUALIZADA) ---
+# 4. IMPORTAÇÕES OCULTAS (LISTA ATUALIZADA) 
+
 hidden_imports = [
     # Core Streamlit
     'streamlit',
@@ -104,7 +108,8 @@ hidden_imports = [
     'docx.opc.parts'
 ]
 
-# --- 5. COMPILAÇÃO ---
+# 5. COMPILAÇÃO
+
 block_cipher = None
 
 a = Analysis(

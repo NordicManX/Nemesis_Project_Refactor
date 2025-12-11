@@ -17,6 +17,7 @@ def carregar_banco(nome_caso):
     if not os.path.exists(caminho): os.makedirs(caminho)
     
     # Previne erro de lock do Windows fechando conexão anterior
+    
     if "vectorstore" in st.session_state and st.session_state.vectorstore:
         try: st.session_state.vectorstore._client._system.stop()
         except: pass
